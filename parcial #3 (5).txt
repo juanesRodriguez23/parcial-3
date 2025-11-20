@@ -1,0 +1,68 @@
+
+### **6. numeral2_matrix_grammar/examples/matrix_examples.mlang**
+
+```matlang
+// =============================================
+// EJEMPLOS MATLANG - OPERACIONES MATRICIALES
+// =============================================
+
+// Ejemplo 1: Producto punto básico
+matrix A = [[1, 2, 3]];
+matrix B = [[4, 5, 6]];
+result1 = dot(A, B);
+print(result1);  // 32 (1*4 + 2*5 + 3*6)
+
+// Ejemplo 2: Vectores fila y columna
+matrix vec_fila = [[1, 2, 3]];
+matrix vec_columna = [[4], [5], [6]];
+result2 = dot(vec_fila, vec_columna);
+print(result2);  // 32
+
+// Ejemplo 3: Matrices 2x2
+matrix M1 = [[1, 2], [3, 4]];
+matrix M2 = [[5, 6], [7, 8]];
+result3 = dot(M1, M2);
+print(result3);  // 70 (1*5 + 2*6 + 3*7 + 4*8)
+
+// Ejemplo 4: Multiplicación matricial
+matrix C = [[1, 2], [3, 4]];
+matrix D = [[5, 6], [7, 8]];
+result4 = matmul(C, D);
+print(result4);  // [[19, 22], [43, 50]]
+
+// Ejemplo 5: Transposición
+matrix E = [[1, 2, 3], [4, 5, 6]];
+result5 = transpose(E);
+print(result5);  // [[1, 4], [2, 5], [3, 6]]
+
+// Ejemplo 6: Operaciones con escalares
+matrix escalar = 5;
+matrix F = [[1, 2], [3, 4]];
+result6 = dot(escalar, F);
+print(result6);  // 50 (5*1 + 5*2 + 5*3 + 5*4)
+
+// Ejemplo 7: Expresiones complejas
+matrix G = [[1, 2], [3, 4]];
+matrix H = [[5, 6], [7, 8]];
+result7 = dot(G + H, G - H);
+print(result7);
+
+// Ejemplo 8: Múltiples operaciones
+matrix I = [[1, 0], [0, 1]];  // Matriz identidad
+matrix J = [[2, 3], [4, 5]];
+result8 = matmul(I, J);
+print(result8);  // [[2, 3], [4, 5]]
+
+// Ejemplo 9: Cadena de operaciones
+matrix K = [[1, 2]];
+matrix L = [[3], [4]];
+matrix M = [[5, 6]];
+result9 = dot(K, matmul(L, M));
+print(result9);
+
+// Ejemplo 10: Uso de variables intermedias
+matrix N = [[1, 2, 3]];
+matrix O = [[4], [5], [6]];
+temp = dot(N, O);
+result10 = temp * 2;
+print(result10);  // 64

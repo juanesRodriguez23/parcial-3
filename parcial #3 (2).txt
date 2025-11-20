@@ -1,0 +1,36 @@
+=== EJEMPLOS SQL-CRUD VÁLIDOS ===
+
+-- Creación de tablas
+CREATE TABLE usuarios (
+    id INT PRIMARY KEY,
+    nombre STRING,
+    edad INT,
+    email STRING
+);
+
+CREATE TABLE productos (
+    id INT PRIMARY KEY,
+    nombre STRING,
+    precio FLOAT,
+    categoria STRING
+);
+
+-- Consultas SELECT
+SELECT * FROM usuarios;
+SELECT nombre, edad FROM usuarios WHERE edad > 18;
+SELECT id, nombre FROM productos WHERE precio < 50.0;
+
+-- Inserciones INSERT
+INSERT INTO usuarios (id, nombre, edad, email) 
+VALUES (1, 'Ana García', 25, 'ana@email.com');
+
+INSERT INTO productos (id, nombre, precio, categoria) 
+VALUES (1, 'Laptop', 999.99, 'Tecnología');
+
+-- Actualizaciones UPDATE
+UPDATE usuarios SET edad = 26 WHERE id = 1;
+UPDATE productos SET precio = 899.99 WHERE nombre = 'Laptop';
+
+-- Eliminaciones DELETE
+DELETE FROM usuarios WHERE id = 1;
+DELETE FROM productos WHERE precio > 1000;

@@ -1,0 +1,127 @@
+grammar MatrixLang;
+
+@parser::members {
+    def flatten_matrix(self, matrix):
+        """Convierte una matriz en una lista plana de elementos"""
+        if isinstance(matrix, (int, float)):
+            return [matrix]
+        flat = []
+        for row in matrix:
+            if isinstance(row, list):
+                flat.extend(self.flatten_matrix(row))
+            else:
+                flat.append(row)
+        return flat
+    
+    def get_matrix_shape(self, matrix):
+        """Obtiene las dimensiones (filas, columnas) de una matriz"""
+        if isinstance(matrix, (int, float)):
+            return (1, 1)
+        if not matrix:
+            return (0, 0)
+        if isinstance(matrix[0], list):
+            rows = len(matrix)
+            cols = len(matrix[0])
+            # Verificar que todas las filas tengan el mismo número de columnas
+            for row in matrix:
+                if len(row) != cols:
+                    raise Exception("Matriz irregular: filas con diferente número de columnas")
+            return (rows, cols)
+        else:
+            return (1, len(matrix))
+}
+
+// ==================== REGLAS DEL PARSER ====================
+
+program: statement+ EOF;
+
+statement: 
+    matrix_declaration ';' 
+    | assignment ';' 
+    | function_call ';' 
+    | print_statement ';'
+    ;
+
+matrix_declaration:
+    MATRIX ID '=' matrix_expression
+    ;
+
+assignment:
+    ID '=' expression
+    ;
+
+print_statement:
+    PRINT '(' expression ')'
+    ;
+
+expression:
+    function_call
+    | matrix_expression
+    | ID
+    | NUMBER
+    ;
+
+matrix_expression:
+    matrix_literal
+    | ID
+    | '(' matrix_expression ')'
+    | matrix_expression '+' matrix_expression
+    | matrix_expression '-' matrix_expression
+    ;
+
+function_call:
+    DOT '(' expression ',' expression ')'
+    | MATMUL '(' expression ',' expression ')'
+    | TRANSPOSE '(' expression ')'
+    | DETERMINANT '(' expression ')'
+    | INVERSE '(' expression ')'
+    ;
+
+matrix_literal:
+    '[' row_list? ']'
+    ;
+
+row_list:
+    row (',' row)*
+    ;
+
+row:
+    '[' number_list? ']'
+    ;
+
+number_list:
+    NUMBER (',' NUMBER)*
+    ;
+
+// ==================== REGLAS DEL LEXER ====================
+
+// Palabras reservadas
+DOT: 'dot';
+MATMUL: 'matmul';
+TRANSPOSE: 'transpose';
+DETERMINANT: 'determinant';
+INVERSE: 'inverse';
+PRINT: 'print';
+MATRIX: 'matrix';
+
+// Identificadores
+ID: [a-zA-Z_][a-zA-Z_0-9]*;
+
+// Números
+NUMBER: '-'? [0-9]+ ('.' [0-9]+)?;
+
+// Espacios y comentarios
+WS: [ \t\r\n]+ -> skip;
+COMMENT: '//' ~[\r\n]* -> skip;
+MULTILINE_COMMENT: '/*' .*? '*/' -> skip;
+
+// Símbolos
+LPAREN: '(';
+RPAREN: ')';
+LBRACK: '[';
+RBRACK: ']';
+COMMA: ',';
+SEMI: ';';
+PLUS: '+';
+MINUS: '-';
+EQ: '=';

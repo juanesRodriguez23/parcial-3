@@ -1,0 +1,3 @@
+A = [[1, 2]];        // Inferido como matrix
+B = 5;              // Inferido como scalar
+C = dot(A, B);      // Resultado: number

@@ -1,0 +1,84 @@
+(* 
+   Gramática BNF para Lenguaje de Operaciones Matriciales
+   Numeral 2: Producto Punto entre Matrices de Diferentes Dimensiones
+*)
+
+<program> ::= <statement>+
+
+<statement> ::= <matrix_declaration> ";"
+              | <assignment> ";"
+              | <function_call> ";"
+              | <print_statement> ";"
+
+<matrix_declaration> ::= "matrix" <identifier> "=" <matrix_expression>
+
+<assignment> ::= <identifier> "=" <expression>
+
+<print_statement> ::= "print" "(" <expression> ")"
+
+<expression> ::= <function_call>
+               | <matrix_literal>
+               | <identifier>
+               | <number>
+               | <expression> "+" <expression>
+               | <expression> "-" <expression>
+
+<function_call> ::= "dot" "(" <expression> "," <expression> ")"
+                  | "matmul" "(" <expression> "," <expression> ")"
+                  | "transpose" "(" <expression> ")"
+                  | "determinant" "(" <expression> ")"
+                  | "inverse" "(" <expression> ")"
+
+<matrix_expression> ::= <matrix_literal>
+                      | <function_call>
+                      | <identifier>
+                      | <matrix_expression> "+" <matrix_expression>
+                      | <matrix_expression> "-" <matrix_expression>
+
+<matrix_literal> ::= "[" <row_list> "]"
+
+<row_list> ::= <row> ("," <row>)*
+
+<row> ::= "[" <number_list> "]"
+
+<number_list> ::= <number> ("," <number>)*
+
+<number> ::= <integer> | <float>
+
+<integer> ::= ["-"] <digit>+
+
+<float> ::= ["-"] <digit>+ "." <digit>+
+
+<identifier> ::= <letter> (<letter> | <digit> | "_")*
+
+<letter> ::= "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" 
+           | "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" | "s" | "t" 
+           | "u" | "v" | "w" | "x" | "y" | "z" 
+           | "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" 
+           | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T" 
+           | "U" | "V" | "W" | "X" | "Y" | "Z"
+
+<digit> ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+
+(* Reglas Semánticas Implícitas *)
+
+(* 
+   Producto Punto (dot):
+   - Si ambas matrices tienen la misma cantidad total de elementos: 
+        dot(A, B) = Σ(A[i] * B[i]) para todos los elementos
+   - Si A es 1×n y B es n×1: producto punto vectorial estándar
+   - Si dimensiones diferentes pero mismo total de elementos: 
+        se aplanan y se calcula producto punto
+*)
+
+(*
+   Multiplicación Matricial (matmul):
+   - columnas(A) debe igualar filas(B)
+   - Resultado tiene dimensiones: filas(A) × columnas(B)
+*)
+
+(*
+   Transposición (transpose):
+   - Intercambia filas por columnas
+   - Si A es m×n, transpose(A) es n×m
+*)
